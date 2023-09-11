@@ -9,24 +9,26 @@ import WidgetKit
 import SwiftUI
 import Intents
 
-struct Provider: IntentTimelineProvider {
-    func placeholder(in context: Context) -> SimpleEntry {
-        SimpleEntry(date: Date(), configuration: ConfigurationIntent())
+struct Provider: TimelineProvider {
+    
+    func placeholder(in context: Context) -> DayEntry {
+        DayEntry(date: Date())
     }
 
-    func getSnapshot(for configuration: ConfigurationIntent, in context: Context, completion: @escaping (SimpleEntry) -> ()) {
-        let entry = SimpleEntry(date: Date(), configuration: configuration)
+    func getSnapshot( in context: Context, completion: @escaping (DayEntry) -> ()) {
+        let entry = DayEntry(date: Date.now)
         completion(entry)
     }
 
-    func getTimeline(for configuration: ConfigurationIntent, in context: Context, completion: @escaping (Timeline<Entry>) -> ()) {
-        var entries: [SimpleEntry] = []
+    func getTimeline(in context: Context, completion: @escaping (Timeline<Entry>) -> ()) {
+        var entries: [DayEntry] = []
 
         // Generate a timeline consisting of five entries an hour apart, starting from the current date.
         let currentDate = Date()
-        for hourOffset in 0 ..< 5 {
-            let entryDate = Calendar.current.date(byAdding: .hour, value: hourOffset, to: currentDate)!
-            let entry = SimpleEntry(date: entryDate, configuration: configuration)
+        for dayOffset in 0 ..< 7 {
+            let entryDate = Calendar.current.date(byAdding: .day, value: dayOffset, to: currentDate)!
+            let startDate = Calendar.current.startOfDay(for: entryDate)
+            let entry = DayEntry(date: startDate)
             entries.append(entry)
         }
 
@@ -35,16 +37,40 @@ struct Provider: IntentTimelineProvider {
     }
 }
 
-struct SimpleEntry: TimelineEntry {
+struct DayEntry: TimelineEntry {
     let date: Date
-    let configuration: ConfigurationIntent
 }
 
 struct MonthlyWidgetEntryView : View {
-    var entry: Provider.Entry
+    var entry: DayEntry
+    var config: MonthConfig
+    
+    init(entry: DayEntry) {
+        self.entry = entry
+        self.config = MonthConfig.determineConfig(from: entry.date)
+    }
 
     var body: some View {
-        Text(entry.date, style: .time)
+        ZStack {
+            ContainerRelativeShape()
+                .fill(config.backgroundColor.gradient)
+            VStack {
+                HStack(spacing: 4, content: {
+                    Text(config.emojiText)
+                    Text(entry.date.weekdayDisplayFormat)
+                        .font(.title)
+                        .fontWeight(.bold)
+                        .minimumScaleFactor(0.6)
+                        .foregroundColor(config.weekdayTextColor)
+                    Spacer()
+                })
+                Text(entry.date.datyDisplayFormat)
+                    .font(.system(size: 80, weight: .heavy))
+                    .foregroundColor(config.dayTextColor)
+                    
+            }
+            .padding()
+        }
     }
 }
 
@@ -52,17 +78,27 @@ struct MonthlyWidget: Widget {
     let kind: String = "MonthlyWidget"
 
     var body: some WidgetConfiguration {
-        IntentConfiguration(kind: kind, intent: ConfigurationIntent.self, provider: Provider()) { entry in
+        StaticConfiguration(kind: kind, provider: Provider()) { entry in
             MonthlyWidgetEntryView(entry: entry)
         }
-        .configurationDisplayName("My Widget")
-        .description("This is an example widget.")
+        .configurationDisplayName("My Day Widget")
+        .description("This is an my day widget.")
+        .supportedFamilies([.systemSmall])
     }
 }
 
 struct MonthlyWidget_Previews: PreviewProvider {
     static var previews: some View {
-        MonthlyWidgetEntryView(entry: SimpleEntry(date: Date(), configuration: ConfigurationIntent()))
+        MonthlyWidgetEntryView(entry: DayEntry(date: Date()))
             .previewContext(WidgetPreviewContext(family: .systemSmall))
+    }
+}
+
+extension Date {
+    var weekdayDisplayFormat: String {
+        self.formatted(.dateTime.weekday(.wide))
+    }
+    var datyDisplayFormat: String {
+        self.formatted(.dateTime.day())
     }
 }

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4DBBB84B2AAF267C008EB785 /* MonthConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DBBB84A2AAF267C008EB785 /* MonthConfig.swift */; };
 		4DCDE40F2AAF14ED0052E041 /* MonthlyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DCDE40E2AAF14ED0052E041 /* MonthlyApp.swift */; };
 		4DCDE4112AAF14ED0052E041 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DCDE4102AAF14ED0052E041 /* ContentView.swift */; };
 		4DCDE4132AAF14EE0052E041 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4DCDE4122AAF14EE0052E041 /* Assets.xcassets */; };
@@ -47,6 +48,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		4DBBB84A2AAF267C008EB785 /* MonthConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthConfig.swift; sourceTree = "<group>"; };
 		4DCDE40B2AAF14ED0052E041 /* Monthly.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Monthly.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4DCDE40E2AAF14ED0052E041 /* MonthlyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthlyApp.swift; sourceTree = "<group>"; };
 		4DCDE4102AAF14ED0052E041 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -136,6 +138,7 @@
 				4DCDE4272AAF16550052E041 /* MonthlyWidgetBundle.swift */,
 				4DCDE4292AAF16550052E041 /* MonthlyWidgetLiveActivity.swift */,
 				4DCDE42B2AAF16550052E041 /* MonthlyWidget.swift */,
+				4DBBB84A2AAF267C008EB785 /* MonthConfig.swift */,
 				4DCDE42D2AAF16550052E041 /* MonthlyWidget.intentdefinition */,
 				4DCDE42E2AAF16570052E041 /* Assets.xcassets */,
 				4DCDE4302AAF16570052E041 /* Info.plist */,
@@ -254,6 +257,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4DBBB84B2AAF267C008EB785 /* MonthConfig.swift in Sources */,
 				4DCDE42C2AAF16550052E041 /* MonthlyWidget.swift in Sources */,
 				4DCDE42A2AAF16550052E041 /* MonthlyWidgetLiveActivity.swift in Sources */,
 				4DCDE4312AAF16570052E041 /* MonthlyWidget.intentdefinition in Sources */,
